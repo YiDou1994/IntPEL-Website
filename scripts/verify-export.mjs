@@ -2,13 +2,13 @@ import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {languages,routes,pageUrl,translate} from '../lib/site-renderer.mjs';
 import {teamMembers} from '../lib/team-members.mjs';
-const base='/tyndall_tpel';
+const base='/IntPEL-Website';
 for(const [lang] of languages)for(const page of routes){
  const path=pageUrl(page,lang,base).slice(base.length);
  const html=readFileSync(`gh-pages-output${path}index.html`,'utf8');
  assert(html.includes(`<html lang="${lang}" dir="${lang==='ar'?'rtl':'ltr'}">`));
  for(const [target] of languages)assert(html.includes(`href="${pageUrl(page,target,base)}" lang="${target}"`),`${lang}/${page}: language link`);
- for(const match of html.matchAll(/(?:href|src)="(\/tyndall_tpel\/[^"]*)"/g)){
+ for(const match of html.matchAll(/(?:href|src)="(\/IntPEL-Website\/[^"]*)"/g)){
    const local=match[1].slice(base.length).split('#')[0];
    assert(existsSync(`gh-pages-output${local}${local.endsWith('/')?'index.html':''}`),`Broken link: ${match[1]}`);
  }
